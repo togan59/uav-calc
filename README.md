@@ -1,2 +1,2 @@
 # uav-calc
-Personal Uav performance and design paramater calculator app project.
+Personal Unmanned air vehicle performance and design paramater calculator app project.
