@@ -1,3 +1,0 @@
-/home/hk/Code/uav-calc/cmake-build-debug/CMakeFiles/uav_calc.dir
-/home/hk/Code/uav-calc/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/hk/Code/uav-calc/cmake-build-debug/CMakeFiles/rebuild_cache.dir
