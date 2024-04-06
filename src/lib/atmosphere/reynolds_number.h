@@ -18,11 +18,13 @@ speed and characteristic lengths vary.
         ν : kinematic viscosity of the fluid (m2/s).
 */
 
-double calcReWithKinematicViscosity(double flowSpeed, double characteristicLength, double kinematicViscosity) {
+double calcReWithKinematicViscosity(double flowSpeed, double characteristicLength, double kinematicViscosity) 
+{
     return flowSpeed * characteristicLength / kinematicViscosity;
 }
 
-double calcReWithDynamicViscosity(double fluidDensity, double flowSpeed, double characteristicLength, double dynamicViscosity) {
+double calcReWithDynamicViscosity(double fluidDensity, double flowSpeed, double characteristicLength, double dynamicViscosity) 
+{
     return fluidDensity * flowSpeed * characteristicLength / dynamicViscosity;
 }
 
