@@ -1,12 +1,8 @@
-//
-// Created by hk on 3/27/24.
-//
-
 #include "air_properties.h"
 
 AirProperties::AirProperties()
 {
-
+    // TO-DO : Write Constructer with CSV File Reader 
 }
 
 AirProperties::~AirProperties()
