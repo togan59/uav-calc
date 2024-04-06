@@ -2,7 +2,7 @@
 #define REYNOLDS_NUMBER_H
 
 /*
-[EN] The Reynolds number (Re) is a dimensionless value that
+The Reynolds number (Re) is a dimensionless value that
 measures the ratio of inertial forces to viscous
 forces and descibes the degree of laminar or turbulent
 flow. Systems that operate at the same Reynolds number
