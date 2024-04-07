@@ -1,16 +1,19 @@
 #ifndef UAV_CALC_AIR_PROPERTIES_H
 #define UAV_CALC_AIR_PROPERTIES_H
 
-#include <cmath>
+#include <cmath>    
 
 const double UNIVERSAL_GAS_CONST = 8.3143;                  // J/mol * K
 const double GRAVITATIONAL_ACCELERATION = 9.81;             // m/s^2
-const double STANDART_AIR_TEMPERATURE = 293.15;             // K
-const double STANDART_AIR_DENSITY = 1.225;                  // kg/m^3
-const double STANDART_AIR_PRESSURE = 101325;                // Pa
+const double STANDARD_AIR_TEMPERATURE = 288.15;             // K
+const double STANDARD_AIR_DENSITY = 1.225;                  // kg/m^3
+const double STANDARD_AIR_PRESSURE = 101325;                // Pa
 const double AIR_THERMAL_EXPANSION_COEFFICIENT = 0.003661;  // K^-1
-const double STANDART_DYNAMIC_VISCOSITY = 1.8205;           // Pa*s
+const double STANDARD_DYNAMIC_VISCOSITY = 1.802e-5;         // Pa*s
 const double SUTHERLAND_CONST = 119.8;                      // K
+const double MOLAR_MASS = 0.0289652; 
+const double BOLTZMANN_CONST = 1.380649e-23;
+const double LAPSE_RATE = 0.0065;
 
 
 /**
@@ -24,7 +27,20 @@ const double SUTHERLAND_CONST = 119.8;                      // K
 
 double calculateAbsoluteAirPressure (double temperature, double altitude)
 {
-    return STANDART_AIR_PRESSURE * exp(-1 * (GRAVITATIONAL_ACCELERATION * altitude) / (UNIVERSAL_GAS_CONST * (temperature)));
+    return STANDARD_AIR_PRESSURE * exp(-1 * (GRAVITATIONAL_ACCELERATION * altitude) / (UNIVERSAL_GAS_CONST * (temperature)));
+}
+
+/**
+ * Calculates the air density at given temperature.
+ *
+ * @param temperature The temperature in Kelvin.
+ *
+ * @return The air density in kilograms per cubic meter.
+ */
+
+double calculateDryAirDensity (double temperature)
+{
+    return (STANDARD_AIR_PRESSURE) / ((UNIVERSAL_GAS_CONST / MOLAR_MASS) * STANDARD_AIR_TEMPERATURE);
 }
 
 /**
@@ -36,11 +52,12 @@ double calculateAbsoluteAirPressure (double temperature, double altitude)
  * @return The air density in kilograms per cubic meter.
  */
 
-double calculateDryAirDensity (double temperature, double altitude)
+double calculateDryAirDensity(double temperature, double altitude)
 {
-    return STANDART_AIR_DENSITY * (calculateAbsoluteAirPressure(temperature, altitude) / STANDART_AIR_PRESSURE) * (1 / (1 + AIR_THERMAL_EXPANSION_COEFFICIENT * (temperature - STANDART_AIR_TEMPERATURE)));
+    return ((STANDARD_AIR_PRESSURE * MOLAR_MASS) / (UNIVERSAL_GAS_CONST * STANDARD_AIR_TEMPERATURE)) * pow(((1 - ((LAPSE_RATE * altitude) / STANDARD_AIR_TEMPERATURE))),((GRAVITATIONAL_ACCELERATION * MOLAR_MASS) / (UNIVERSAL_GAS_CONST * LAPSE_RATE) - 1));
 }
 
+// TO DO ---> ADD HUMID AIR DENSITY
 /**
  * Calculates the dynamic viscosity of air at a given temperature and humidity.
  *
@@ -50,9 +67,9 @@ double calculateDryAirDensity (double temperature, double altitude)
  * @return The dynamic viscosity in Pascal-seconds.
  */
 
-double calculateDynamicViscosity (double temperature, double humidity) 
+double calculateDynamicViscosity (double temperature) 
 {
-    return STANDART_DYNAMIC_VISCOSITY * (pow(((temperature + SUTHERLAND_CONST) / STANDART_AIR_TEMPERATURE),1.5) * (1 + humidity * ((temperature + SUTHERLAND_CONST) / STANDART_AIR_TEMPERATURE)));
+    return STANDARD_DYNAMIC_VISCOSITY * ((0.555 * STANDARD_AIR_TEMPERATURE + SUTHERLAND_CONST) / (0.555 * temperature + SUTHERLAND_CONST)) * pow((temperature/STANDARD_AIR_TEMPERATURE),1.5); 
 }
 
 /**
@@ -65,9 +82,9 @@ double calculateDynamicViscosity (double temperature, double humidity)
  * @return The kinematic viscosity in square meters per second.
  */
 
-double calculateKinematicViscosity (double temperature, double altitude, double humidity)
+double calculateKinematicViscosity (double temperature, double humidity)
 {
-    return calculateDynamicViscosity(temperature, humidity) / calculateDryAirDensity(temperature, altitude);
+    return calculateDynamicViscosity(temperature) / calculateDryAirDensity(temperature);
 }
 
 #endif
