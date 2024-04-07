@@ -1,31 +1,43 @@
 #ifndef REYNOLDS_NUMBER_H
 #define REYNOLDS_NUMBER_H
 
-/*
-The Reynolds number (Re) is a dimensionless value that
-measures the ratio of inertial forces to viscous
-forces and descibes the degree of laminar or turbulent
-flow. Systems that operate at the same Reynolds number
-will have the same flow characteristics even if the fluid,
-speed and characteristic lengths vary. 
+#include "air_properties.h"
 
-    "Re = ρ.u.L / μ"  or "Re = u.L / ν"
-    
-        ρ : density of the fluid (SI units: kg/m3)
-        u : flow speed (m/s)
-        L : characteristic length (m)
-        μ : dynamic viscosity of the fluid (Pa·s or N·s/m2 or kg/(m·s))
-        ν : kinematic viscosity of the fluid (m2/s).
-*/
+/**
+ * Calculates the Reynolds number using kinematic viscosity.
+ *
+ * @param temperature The temperature in Kelvin.
+ * @param altitude The altitude in meters.
+ * @param humidity The humidity ratio.
+ * @param flowSpeed The flow speed in meters per second.
+ * @param characteristicLength The characteristic length in meters.
+ * @param kinematicViscosity The kinematic viscosity of the fluid.
+ *
+ * @return The Reynolds number.
+ */
 
-double calcReWithKinematicViscosity(double flowSpeed, double characteristicLength, double kinematicViscosity) 
+double calculateReWithKinematicViscosity(double temperature, double altitude, double humidity, double flowSpeed, double characteristicLength) 
 {
-    return flowSpeed * characteristicLength / kinematicViscosity;
+    return flowSpeed * characteristicLength / calculateKinematicViscosity(temperature, altitude, humidity);
 }
 
-double calcReWithDynamicViscosity(double fluidDensity, double flowSpeed, double characteristicLength, double dynamicViscosity) 
+/**
+ * Calculates the Reynolds number using dynamic viscosity.
+ *
+ * @param temperature The temperature in Kelvin.
+ * @param humidity The humidity ratio.
+ * @param fluidDensity The density of the fluid in kilograms per cubic meter.
+ * @param flowSpeed The flow speed in meters per second.
+ * @param characteristicLength The characteristic length in meters.
+ * @param dynamicViscosity The dynamic viscosity of the fluid.
+ *
+ * @return The Reynolds number.
+ */
+
+double calculateReWithDynamicViscosity(double temperature, double humidity, double fluidDensity, double flowSpeed, double characteristicLength) 
 {
-    return fluidDensity * flowSpeed * characteristicLength / dynamicViscosity;
+    return fluidDensity * flowSpeed * characteristicLength / calculateDynamicViscosity(temperature, humidity);
 }
+
 
 #endif
