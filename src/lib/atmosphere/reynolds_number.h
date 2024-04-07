@@ -39,5 +39,4 @@ double calculateReWithDynamicViscosity(double temperature, double humidity, doub
     return fluidDensity * flowSpeed * characteristicLength / calculateDynamicViscosity(temperature, humidity);
 }
 
-
 #endif
