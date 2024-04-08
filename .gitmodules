@@ -1,0 +1,3 @@
+[submodule "vendor/naca"]
+	path = vendor/naca
+	url = https://github.com/starseeker/naca.git
