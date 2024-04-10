@@ -137,7 +137,7 @@ double calculateDynamicViscosity(double temperature)
 
 double calculateKinematicViscosity(double temperature, double altitude) 
 {
-  return calculateDynamicViscosity(temperature) / calculateAirDensity(temperature, altitude);
+  return calculateDynamicViscosity(temperature) / calculateDryAirDensity(temperature, altitude);
 }
 
 #endif
