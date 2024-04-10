@@ -29,7 +29,7 @@ const double WATERVAPOUR_MOLAR_MASS = 0.018016;               // kg/mol (Molar m
 const double DRYAIR_GAS_CONST = 287.058;                       // J/kg * K (Specific gas constant for dry air)
 const double WATERVAPOUR_GAS_CONST = 461.495;                  // J/kg * K (Specific gas constant for water vapor)
 
-// Antoine equation coefficients for water vapor pressure
+// Herman Wobus equation coefficients for water vapor pressure
 const double Eso = 6.1078;                                   // Pa (Reference vapor pressure at 0°C)
 const double c0 = 0.99999683;
 const double c1 = -0.90826951e-2;
@@ -43,7 +43,7 @@ const double c8 = 0.11112018e-16;
 const double c9 = -0.30994571e-19;
 
 /**
- * Calculates the water vapor pressure at a given temperature using the Antoine equation.
+ * Calculates the water vapor pressure at a given temperature using the Herman Wobus equation.
  *
  * @param temperature The temperature in Kelvin.
  *
