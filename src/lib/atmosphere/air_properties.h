@@ -94,9 +94,23 @@ double calculateDryAirDensity(double temperature)
  * @return The air density in kilograms per cubic meter.
  */
 
-double calculateAirDensity(double temperature, double altitude) 
+double calculateDryAirDensity(double temperature, double altitude) 
 {
   return ((STANDARD_AIR_PRESSURE * DRYAIR_MOLAR_MASS) / (UNIVERSAL_GAS_CONST * STANDARD_AIR_TEMPERATURE)) * pow(((1 - ((LAPSE_RATE * altitude) / STANDARD_AIR_TEMPERATURE))), ((GRAVITATIONAL_ACCELERATION * DRYAIR_MOLAR_MASS) / (UNIVERSAL_GAS_CONST * LAPSE_RATE) - 1));
+}
+
+/**
+ * Calculates the density of humid air at a given temperature and altitude.
+ *
+ * @param temperature The temperature in Kelvin.
+ * @param altitude The altitude in meters.
+ *
+ * @return The density of humid air in kilograms per cubic meter.
+ */
+
+double calculateHumidAirDensity(double temperature, double altitude) 
+{
+  return (calculateAbsoluteAirPressure(temperature, altitude) / (DRYAIR_GAS_CONST * temperature)) + (calculateWaterVapourPressure(temperature) / (WATERVAPOUR_GAS_CONST * temperature));
 }
 
 /**
