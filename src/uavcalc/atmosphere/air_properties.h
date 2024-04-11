@@ -4,33 +4,33 @@
 #include <cmath>
 
 // Fundamental physical constants
-const double UNIVERSAL_GAS_CONST = 8.3143;                  // J/mol * K (Universal gas constant)
-const double GRAVITATIONAL_ACCELERATION = 9.81;             // m/s^2 (Acceleration due to gravity)
+const double UNIVERSAL_GAS_CONST = 8.3143;                    // J/mol * K (Universal gas constant)
+const double GRAVITATIONAL_ACCELERATION = 9.81;               // m/s^2 (Acceleration due to gravity)
 
 // Standard atmospheric conditions at sea level
-const double STANDARD_AIR_TEMPERATURE = 288.15;             // K (Standard air temperature)
-const double STANDARD_AIR_DENSITY = 1.225;                  // kg/m^3 (Standard air density)
-const double STANDARD_AIR_PRESSURE = 101325;                // Pa (Standard air pressure)
+const double STANDARD_AIR_TEMPERATURE = 288.15;               // K (Standard air temperature)
+const double STANDARD_AIR_DENSITY = 1.225;                    // kg/m^3 (Standard air density)
+const double STANDARD_AIR_PRESSURE = 101325;                  // Pa (Standard air pressure)
 
 // Air properties
-const double AIR_THERMAL_EXPANSION_COEFFICIENT = 0.003661;  // K^-1 (Thermal expansion coefficient of air)
+const double AIR_THERMAL_EXPANSION_COEFFICIENT = 0.003661;    // K^-1 (Thermal expansion coefficient of air)
 
 // Viscosity-related constants
-const double STANDARD_DYNAMIC_VISCOSITY = 1.802e-5;         // Pa*s (Standard dynamic viscosity of air)
-const double SUTHERLAND_CONST = 119.8;                      // K (Sutherland constant for air)
+const double STANDARD_DYNAMIC_VISCOSITY = 1.802e-5;           // Pa*s (Standard dynamic viscosity of air)
+const double SUTHERLAND_CONST = 119.8;                        // K (Sutherland constant for air)
 
 // Gas component properties
-const double DRYAIR_MOLAR_MASS = 0.0289652;                 // kg/mol (Molar mass of dry air)
-const double BOLTZMANN_CONST = 1.380649e-23;                // J/K (Boltzmann constant)
-const double LAPSE_RATE = 0.0065;                            // K/m (Environmental lapse rate)
+const double DRYAIR_MOLAR_MASS = 0.0289652;                   // kg/mol (Molar mass of dry air)
+const double BOLTZMANN_CONST = 1.380649e-23;                  // J/K (Boltzmann constant)
+const double LAPSE_RATE = 0.0065;                             // K/m (Environmental lapse rate)
 
 // Water vapor properties
 const double WATERVAPOUR_MOLAR_MASS = 0.018016;               // kg/mol (Molar mass of water vapor)
-const double DRYAIR_GAS_CONST = 287.058;                       // J/kg * K (Specific gas constant for dry air)
-const double WATERVAPOUR_GAS_CONST = 461.495;                  // J/kg * K (Specific gas constant for water vapor)
+const double DRYAIR_GAS_CONST = 287.058;                      // J/kg * K (Specific gas constant for dry air)
+const double WATERVAPOUR_GAS_CONST = 461.495;                 // J/kg * K (Specific gas constant for water vapor)
 
 // Herman Wobus equation coefficients for water vapor pressure
-const double Eso = 6.1078;                                   // Pa (Reference vapor pressure at 0°C)
+const double Eso = 6.1078;                                    // Pa (Reference vapor pressure at 0°C)
 const double c0 = 0.99999683;
 const double c1 = -0.90826951e-2;
 const double c2 = 0.78736169e-4;
@@ -54,7 +54,7 @@ double calculateWaterVapourPressure(double temperature)
 {
   temperature -= 273.15; // Convert from Kelvin to Celsius
 
-  double p = (c0 + temperature * (c1 + temperature * (c2 + temperature * (c3 + temperature * (c4 + temperature * (c5 + temperature * (c6 + temperature * (c7 + temperature * (c8 + temperature * (c9)))))))))));
+  double p = (c0 + temperature * (c1 + temperature * (c2 + temperature * (c3 + temperature * (c4 + temperature * (c5 + temperature * (c6 + temperature * (c7 + temperature * (c8 + temperature * (c9))))))))));
   return Eso / pow(p, 8);
 }
 
