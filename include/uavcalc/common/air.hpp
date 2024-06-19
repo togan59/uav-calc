@@ -1,7 +1,9 @@
-#ifndef UAV_CALC_AIR_PROPERTIES_H
-#define UAV_CALC_AIR_PROPERTIES_H
+#pragma once
 
 #include <cmath>
+
+namespace uavcalc
+{
 
 // Fundamental physical constants
 const double UNIVERSAL_GAS_CONST = 8.3143;                    // J/mol * K (Universal gas constant)
@@ -50,11 +52,20 @@ const double c9 = -0.30994571e-19;
  * @return The water vapor pressure in Pascals.
  */
 
-double calculateWaterVapourPressure(double temperature) 
+double waterVapourPressure(double temperature) 
 {
   temperature -= 273.15; // Convert from Kelvin to Celsius
 
-  double p = (c0 + temperature * (c1 + temperature * (c2 + temperature * (c3 + temperature * (c4 + temperature * (c5 + temperature * (c6 + temperature * (c7 + temperature * (c8 + temperature * (c9))))))))));
+  double p = (c0 + temperature * 
+              (c1 + temperature * 
+              (c2 + temperature * 
+              (c3 + temperature * 
+              (c4 + temperature * 
+              (c5 + temperature * 
+              (c6 + temperature * 
+              (c7 + temperature * 
+              (c8 + temperature * (c9))))))))));
+              
   return Eso / pow(p, 8);
 }
 
@@ -67,7 +78,7 @@ double calculateWaterVapourPressure(double temperature)
  * @return The absolute air pressure in Pascals.
  */
 
-double calculateAbsoluteAirPressure(double temperature, double altitude) 
+double absoluteAirPressure(double temperature, double altitude) 
 {
   return STANDARD_AIR_PRESSURE * exp(-1 * (GRAVITATIONAL_ACCELERATION * altitude) / (UNIVERSAL_GAS_CONST * (temperature)));
 }
@@ -80,7 +91,7 @@ double calculateAbsoluteAirPressure(double temperature, double altitude)
  * @return The dry air density in kilograms per cubic meter.
  */
 
-double calculateDryAirDensity(double temperature) 
+double dryAirDensity(double temperature) 
 {
   return (STANDARD_AIR_PRESSURE) / ((UNIVERSAL_GAS_CONST / DRYAIR_MOLAR_MASS) * STANDARD_AIR_TEMPERATURE);
 }
@@ -94,9 +105,11 @@ double calculateDryAirDensity(double temperature)
  * @return The air density in kilograms per cubic meter.
  */
 
-double calculateDryAirDensity(double temperature, double altitude) 
+double dryAirDensity(double temperature, double altitude) 
 {
-  return ((STANDARD_AIR_PRESSURE * DRYAIR_MOLAR_MASS) / (UNIVERSAL_GAS_CONST * STANDARD_AIR_TEMPERATURE)) * pow(((1 - ((LAPSE_RATE * altitude) / STANDARD_AIR_TEMPERATURE))), ((GRAVITATIONAL_ACCELERATION * DRYAIR_MOLAR_MASS) / (UNIVERSAL_GAS_CONST * LAPSE_RATE) - 1));
+  return ((STANDARD_AIR_PRESSURE * DRYAIR_MOLAR_MASS) / (UNIVERSAL_GAS_CONST * STANDARD_AIR_TEMPERATURE))
+          * pow(((1 - ((LAPSE_RATE * altitude) / STANDARD_AIR_TEMPERATURE))), ((GRAVITATIONAL_ACCELERATION * DRYAIR_MOLAR_MASS) 
+          / (UNIVERSAL_GAS_CONST * LAPSE_RATE) - 1));
 }
 
 /**
@@ -108,9 +121,10 @@ double calculateDryAirDensity(double temperature, double altitude)
  * @return The density of humid air in kilograms per cubic meter.
  */
 
-double calculateHumidAirDensity(double temperature, double altitude) 
+double humidAirDensity(double temperature, double altitude) 
 {
-  return (calculateAbsoluteAirPressure(temperature, altitude) / (DRYAIR_GAS_CONST * temperature)) + (calculateWaterVapourPressure(temperature) / (WATERVAPOUR_GAS_CONST * temperature));
+  return (absoluteAirPressure(temperature, altitude) / (DRYAIR_GAS_CONST * temperature)) +
+          (waterVapourPressure(temperature) / (WATERVAPOUR_GAS_CONST * temperature));
 }
 
 /**
@@ -121,9 +135,10 @@ double calculateHumidAirDensity(double temperature, double altitude)
  * @return The dynamic viscosity in Pascal-seconds.
  */
 
-double calculateDynamicViscosity(double temperature) 
+double dynamicViscosity(double temperature) 
 {
-  return STANDARD_DYNAMIC_VISCOSITY * ((0.555 * STANDARD_AIR_TEMPERATURE + SUTHERLAND_CONST) / (0.555 * temperature + SUTHERLAND_CONST)) * pow((temperature / STANDARD_AIR_TEMPERATURE), 1.5);
+  return STANDARD_DYNAMIC_VISCOSITY * ((0.555 * STANDARD_AIR_TEMPERATURE + SUTHERLAND_CONST) / (0.555 * temperature + SUTHERLAND_CONST)) * 
+          pow((temperature / STANDARD_AIR_TEMPERATURE), 1.5);
 }
 
 /**
@@ -135,9 +150,9 @@ double calculateDynamicViscosity(double temperature)
  * @return The kinematic viscosity in square meters per second.
  */
 
-double calculateKinematicViscosity(double temperature, double altitude) 
+double kinematicViscosity(double temperature, double altitude) 
 {
-  return calculateDynamicViscosity(temperature) / calculateDryAirDensity(temperature, altitude);
+  return dynamicViscosity(temperature) / dryAirDensity(temperature, altitude);
 }
 
-#endif
+} // namespace uavcalc
