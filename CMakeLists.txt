@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(uavcalc LANGUAGES CXX)
+project(uavcalc VERSION 0.1.0 LANGUAGES CXX)
 
 # Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
@@ -15,6 +15,8 @@ set(HEADER_FILES
 
 add_library(uavcalc
     ${HEADER_FILES}
+    src/common/air.cpp 
+    src/parameters/reynolds_number.cpp 
 )
 
 enable_testing()
